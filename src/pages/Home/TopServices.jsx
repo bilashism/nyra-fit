@@ -6,9 +6,10 @@ import Service from "./Service";
 
 const TopServices = () => {
   const [services, setServices] = useState([]);
+  const itemsLimit = 3;
 
   useEffect(() => {
-    fetch(`${APP_SERVER}/services`)
+    fetch(`${APP_SERVER}/services?itemsLimit=${itemsLimit}`)
       .then(res => res.json())
       .then(data => {
         setServices(data);
