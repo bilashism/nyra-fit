@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import Service from "./Service";
+import Service from "../../components/Service";
 const APP_SERVER = import.meta.env.VITE_APP_SERVER;
 
 const TopServices = () => {

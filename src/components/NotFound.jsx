@@ -3,15 +3,19 @@ import { Link, useRouteError } from "react-router-dom";
 
 const NotFound = () => {
   let error = useRouteError();
-  console.dir(error);
+
   return (
     <div className="text-center">
       <h2>Opps!!! Something went wrong.</h2>
 
-      <div className="">{error?.message && error.message}</div>
+      <div className="">
+        {error ? error?.message || error?.statusText : `Come back later!`}
+      </div>
 
       <p>
-        <Link to="/">Go back to homepage</Link>{" "}
+        <Link to="/" className="hover:underline text-purple-600">
+          Go back to homepage
+        </Link>{" "}
       </p>
     </div>
   );

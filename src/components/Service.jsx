@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Service = ({ service }) => {
-  const { _id, name, description, img, price } = service;
+  const { _id, name, description, imgFull, price } = service;
   return (
     <div className="flex flex-col bg-white rounded-lg border border-gray-200 shadow-md ">
       <div className="max-w-md h-52">
@@ -10,7 +10,7 @@ const Service = ({ service }) => {
           className="rounded-t-lg object-cover h-full"
           width={470}
           height={294}
-          src={img}
+          src={imgFull}
           alt={name}
         />
       </div>
