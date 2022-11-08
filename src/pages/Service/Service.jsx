@@ -1,37 +1,28 @@
 import React from "react";
-import { PhotoProvider, PhotoView } from "react-photo-view";
-import { Link } from "react-router-dom";
-import "react-photo-view/dist/react-photo-view.css";
+import { Link, useLoaderData } from "react-router-dom";
+import useTitle from "../../hooks/useTitle";
 
-const Service = ({ service }) => {
-  const { _id, name, description, img, imgFull, price } = service;
+const Service = () => {
+  const service = useLoaderData();
+
+  const { _id, name, description, imgFull, price } = service;
+  useTitle(name);
   return (
-    <div className="flex flex-col bg-white rounded-lg border border-gray-200 shadow-md ">
-      <div className="max-w-md h-52">
-        <PhotoProvider>
-          <PhotoView src={imgFull}>
-            <img
-              className="rounded-t-lg object-cover h-full hover:cursor-zoom-in"
-              width={470}
-              height={294}
-              src={img}
-              alt={name}
-              loading="lazy"
-              decoding="async"
-              fetchpriority="low"
-            />
-          </PhotoView>
-        </PhotoProvider>
+    <div className="flex flex-col bg-white rounded-lg gap-16  my-24">
+      <div className=" ">
+        <img
+          className="rounded-t-lg object-cover w-full"
+          width={1200}
+          height={750}
+          src={imgFull}
+          alt={name}
+        />
       </div>
-      <div className="flex flex-col items-start justify-between flex-grow gap-4 p-5">
+      <div className="flex flex-col items-start justify-between flex-grow gap-4 p-5 shadow-md">
         <h3 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 ">
           {name}
         </h3>
-        <p className="mb-3 font-normal text-gray-700">
-          {description.length > 100
-            ? `${description.slice(0, 100)}...`
-            : description}
-        </p>
+        <p className="mb-3 font-normal text-gray-700">{description}</p>
         <div className="flex flex-wrap gap-4 justify-between self-stretch">
           <p className="">Price: ${price}</p>
           <Link
