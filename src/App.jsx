@@ -1,6 +1,5 @@
 import { RouterProvider } from "react-router-dom";
 import { router } from "./routes/router";
-export const APP_SERVER = import.meta.env.VITE_APP_SERVER;
 
 function App() {
   return (

@@ -5,7 +5,7 @@ import Statistics from "./Statistics";
 import TopServices from "./TopServices";
 
 const Home = () => {
-  useTitle("Nyra Fit - Your personal fitness trainer!");
+  useTitle("Home");
   return (
     <>
       <Header />
