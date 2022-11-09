@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import logo from "../../../images/logo.svg";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../../context/AuthProvider/AuthProvider";
+import { useRef } from "react";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const photoUrlRef = useRef();
+  const { user, userLogOut, authLoading } = useContext(AuthContext);
+  console.log(user);
+  // const { photoURL, displayName } = user;
+  const errorPhotoUrl = `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjjoJ0G5uM6SvT9IaTjEo-qIsSKH4tQy8hvFn2KJ40UAXIjP6OQwnXpstX3gv4Se9YYfM&usqp=CAU`;
 
   return (
     <nav className="bg-white py-2.5  sticky w-full z-20 top-0 left-0 border-b border-gray-200 ">
@@ -23,12 +30,66 @@ const Navbar = () => {
           </span>
         </Link>
         <div className="flex md:order-2">
-          <Link
-            to="/login"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 ">
-            Login
-          </Link>
-
+          {authLoading ? (
+            <img
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' style='margin: auto; background: none; display: block; shape-rendering: auto;' width='78px' height='78px' viewBox='0 0 100 100' preserveAspectRatio='xMidYMid'%3E%3Ccircle cx='50' cy='50' fill='none' stroke='%23ebbc50' stroke-width='10' r='35' stroke-dasharray='164.93361431346415 56.97787143782138'%3E%3CanimateTransform attributeName='transform' type='rotate' repeatCount='indefinite' dur='1s' values='0 50 50;360 50 50' keyTimes='0;1'%3E%3C/animateTransform%3E%3C/circle%3E%3C/svg%3E"
+              alt="loading"
+              className="w-10 h-10"
+            />
+          ) : user?.uid ? (
+            <div className="group relative flex ">
+              <button
+                type="button"
+                title={user?.displayName}
+                className=" w-10 h-10 rounded">
+                <img
+                  src={user?.photoURL}
+                  alt={user?.displayName}
+                  className="rounded-full ring-2 w-10 h-10 aspect-square object-cover"
+                  width="40"
+                  height="40"
+                  ref={photoUrlRef}
+                  loading="lazy"
+                  decoding="async"
+                  fetchpriority="low"
+                  onError={() => (photoUrlRef.current.src = errorPhotoUrl)}
+                />
+              </button>
+              <nav className="border bg-white invisible border-gray-800 w-40 absolute right-0 top-full transition-all opacity-0 group-hover:visible group-hover:opacity-100 group-hover:translate-y-1 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-1">
+                <ul className="flex flex-col gap-2">
+                  <li>
+                    <a href="#" className="block px-4 py-2 hover:bg-gray-100">
+                      My reviews
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="block px-4 py-2 hover:bg-gray-100">
+                      Add service
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="block px-4 py-2 hover:bg-gray-100">
+                      Settings
+                    </a>
+                  </li>
+                  <li>
+                    <button
+                      onClick={userLogOut}
+                      type="button"
+                      className="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                      Sign Out
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 ">
+              Login
+            </Link>
+          )}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             type="button"
