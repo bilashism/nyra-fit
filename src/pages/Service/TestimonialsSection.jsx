@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Testimonial from "../../components/Testimonial";
+import LoadingCircle from "../../components/ui/LoadingCircle";
+import { AuthContext } from "../../context/AuthProvider/AuthProvider";
 import AddReview from "./AddReview";
 const APP_SERVER = import.meta.env.VITE_APP_SERVER;
 
 const TestimonialsSection = ({ serviceId }) => {
   const [testimonials, setTestimonials] = useState([]);
+  const { user, authLoading } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     fetch(`${APP_SERVER}/testimonials?serviceId=${serviceId}`)
@@ -20,16 +25,27 @@ const TestimonialsSection = ({ serviceId }) => {
   return (
     <div>
       <div className="pb-8">
-        <h2 className="pb-4">
-          Please{" "}
-          <Link
-            to="/login"
-            className="text-purple-600 font-bold hover:underline">
-            Login
-          </Link>{" "}
-          to add a review!{" "}
-        </h2>
-        <AddReview />
+        {authLoading ? (
+          <LoadingCircle />
+        ) : user?.uid ? (
+          <AddReview />
+        ) : (
+          <h2 className="pb-4 text-center">
+            Please{" "}
+            <button
+              type="button"
+              className="text-purple-600 font-bold hover:underline"
+              onClick={() =>
+                navigate("/login", {
+                  state: { from: location },
+                  replace: true
+                })
+              }>
+              Login
+            </button>{" "}
+            to add a review!{" "}
+          </h2>
+        )}
       </div>
 
       <div className="grid grid-cols-1 gap-8">
