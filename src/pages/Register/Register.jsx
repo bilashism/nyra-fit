@@ -2,26 +2,52 @@ import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import useTitle from "../../hooks/useTitle";
 import registrationImg from "../../images/full-length-portrait.png";
-import { FaGoogle } from "react-icons/fa";
-import { useState } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthProvider/AuthProvider";
+import toast from "react-hot-toast";
 
 const Register = () => {
+  const { createUser, updateUserProfile } = useContext(AuthContext);
+
   useTitle("Register");
   const nameRef = useRef();
   const emailRef = useRef();
   const photoUrlRef = useRef();
   const passwordRef = useRef();
-  const [feedback, setFeedback] = useState(`Your privacy is always protected.`);
 
   // handle User Login form
   const handleUserRegistration = ev => {
     ev.preventDefault();
+    const form = ev.target;
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
+    const name = nameRef.current.value;
+    const photoUrl = photoUrlRef.current.value;
 
-    if (email && password) {
-      console.log(email, password);
-    }
+    if (!email || !password) return;
+
+    createUser(email, password)
+      .then(user => {
+        toast.success("Account created successfully!");
+
+        // handle user profile
+        const profile = { displayName: name, photoURL: photoUrl };
+        updateUserProfile(profile)
+          .then(data => {
+            toast.success("Account updated successfully!");
+          })
+          .catch(err => {
+            err?.code && toast.error(err.code);
+            console.error(err);
+          });
+
+        form.reset();
+        console.log(user);
+      })
+      .catch(err => {
+        err?.code && toast.error(err.code);
+        console.error(err);
+      });
   };
 
   return (
@@ -60,6 +86,7 @@ const Register = () => {
                 required=""
                 autoComplete="username"
                 ref={nameRef}
+                minLength="2"
               />
               <label
                 htmlFor="name"
@@ -119,7 +146,7 @@ const Register = () => {
             </div>
 
             <div className="pb-4 text-center text-slate-600">
-              <p className="">{feedback}</p>
+              <p className="">Your privacy is always protected.</p>
             </div>
             <div className="text-center">
               <button
@@ -131,15 +158,6 @@ const Register = () => {
           </form>
           <div className="text-center">
             <hr className="mb-8 w-1/2 mx-auto border-purple-600" />
-            <div className="">
-              <button className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-                <span className="relative inline-flex items-center gap-4 px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0">
-                  <FaGoogle className="text-blue-600 group-hover:text-white transition" />{" "}
-                  <span className="">Sign up with Google</span>
-                </span>
-              </button>
-            </div>
-            <p className="">or</p>
             <p className="">
               Already have an account?{" "}
               <Link

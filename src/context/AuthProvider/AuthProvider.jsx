@@ -14,10 +14,10 @@ import { useState } from "react";
 import { useEffect } from "react";
 import app from "../../firebase/firebase.config";
 
-const auth = getAuth(app);
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
+  const auth = getAuth(app);
   const [user, setUser] = useState();
   const [authLoading, setAuthLoading] = useState(true);
 
