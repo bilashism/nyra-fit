@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import NotFound from "../components/NotFound";
 import Main from "../layouts/Main/Main";
 import AddService from "../pages/AddService/AddService";
+import Blogs from "../pages/Blogs/Blogs";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import MyReviews from "../pages/MyReviews/MyReviews";
@@ -53,6 +54,10 @@ export const router = createBrowserRouter([
             <AddService />
           </PrivateRoute>
         )
+      },
+      {
+        path: "/blogs",
+        element: <Blogs />
       }
     ],
     errorElement: <NotFound />
