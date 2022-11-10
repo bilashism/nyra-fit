@@ -1,10 +1,12 @@
 import React from "react";
 import { useContext } from "react";
 import { useEffect } from "react";
+import { createContext } from "react";
 import { useState } from "react";
 import LoadingCircle from "../../components/ui/LoadingCircle";
 import { AuthContext } from "../../context/AuthProvider/AuthProvider";
 import MyReviewItem from "./MyReviewItem";
+export const MyReviewsContext = createContext();
 
 const MyReviews = () => {
   const [myReviews, setMyReviews] = useState([]);
@@ -42,7 +44,11 @@ const MyReviews = () => {
       ) : (
         <div className="grid gap-8 lg:grid-cols-3">
           {myReviews.map(myReview => (
-            <MyReviewItem key={myReview._id} myReview={myReview} />
+            <MyReviewsContext.Provider
+              key={myReview._id}
+              value={{ myReviews, setMyReviews }}>
+              <MyReviewItem myReview={myReview} />
+            </MyReviewsContext.Provider>
           ))}
         </div>
       )}

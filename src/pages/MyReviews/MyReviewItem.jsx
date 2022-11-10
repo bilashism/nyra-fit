@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
+import toast from "react-hot-toast";
 import LoadingCircle from "../../components/ui/LoadingCircle";
 import { AuthContext } from "../../context/AuthProvider/AuthProvider";
+import { MyReviewsContext } from "./MyReviews";
 
 const MyReviewItem = ({ myReview }) => {
-  const { text, serviceId } = myReview;
+  const { _id, text, serviceId } = myReview;
   const [serviceData, setServiceData] = useState();
+  const { myReviews, setMyReviews } = useContext(MyReviewsContext);
   const { user } = useContext(AuthContext);
   const APP_SERVER = import.meta.env.VITE_APP_SERVER;
 
@@ -18,6 +21,29 @@ const MyReviewItem = ({ myReview }) => {
       })
       .catch(err => console.error(err));
   }, []);
+
+  const handleDelete = id => {
+    const confirm = window.confirm(`Are you sure to delete?`);
+    if (confirm) {
+      fetch(`${APP_SERVER}/testimonial/${id}`, {
+        method: "delete",
+        headers: {
+          authorization: `Bearer ${localStorage.getItem(`nyraFitToken`)}`
+        }
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.deletedCount >= 1) {
+            toast.success("Deleted successfully!");
+            const newReviews = myReviews.filter(
+              myReview => myReview._id !== id
+            );
+            setMyReviews(newReviews);
+          }
+        })
+        .catch(err => console.error(err));
+    }
+  };
 
   return (
     <div className="flex flex-col justify-between w-full max-w-sm bg-white rounded-lg border border-gray-200 shadow-md relative isolate  p-4">
@@ -66,10 +92,13 @@ const MyReviewItem = ({ myReview }) => {
         <h5 className="mb-1 text-xl font-medium text-gray-900 ">
           {serviceData?.name ? serviceData?.name : <LoadingCircle />}
         </h5>
-        <p className="text-sm text-gray-500 capitalize flex-grow">{text}</p>
+        <p className="text-sm text-gray-500 first-letter:uppercase flex-grow">
+          {text}
+        </p>
         <div className="flex mt-4 space-x-3 md:mt-6">
           <button
             type="button"
+            onClick={() => handleDelete(_id)}
             className="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300">
             Delete
           </button>
