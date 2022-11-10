@@ -157,12 +157,12 @@ const MyReviewItem = ({ myReview }) => {
           </button>
         </div>
         {showModal ? (
-          <div className="min-h-screen w-full isolate  fixed inset-0 bg-slate-600 bg-opacity-40 z-50 grid items-center ">
+          <div className="h-auto w-full isolate absolute inset-0 bg-slate-600 bg-opacity-40 z-50 grid items-center ">
             <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto relative  outline-none focus:outline-none">
-              <div className="relative w-auto my-6 mx-auto max-w-3xl">
+              <div className="relative w-auto mx-auto max-w-3xl">
                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                   <div className="flex items-center gap-4 justify-between p-5 border-b border-solid border-gray-300 rounded-t ">
-                    <h3 className="text-3xl font-semibold">Update review</h3>
+                    <h3 className="text-md font-semibold">Update review</h3>
                     <button
                       className="bg-transparent border-0 inline-flex items-center justify-center text-red-600"
                       onClick={() => setShowModal(false)}>
@@ -173,7 +173,7 @@ const MyReviewItem = ({ myReview }) => {
                     <form
                       className=" rounded  w-full"
                       onSubmit={ev => handleReviewUpdate(ev, _id)}>
-                      <div className="relative z-0 mb-6 w-full group">
+                      <div className="relative z-0 mb-2 w-full group">
                         <label
                           htmlFor="updatedReview"
                           className="block mb-2 text-sm sr-only text-gray-500">
