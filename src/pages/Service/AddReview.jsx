@@ -1,6 +1,7 @@
 import React from "react";
 import { useRef } from "react";
 import { useContext } from "react";
+import toast from "react-hot-toast";
 import { AuthContext } from "../../context/AuthProvider/AuthProvider";
 import { TestimonialsContext } from "./TestimonialsSection";
 
@@ -35,7 +36,8 @@ const AddReview = () => {
     })
       .then(res => res.json())
       .then(data => {
-        // console.log(data);
+        toast.success("Review added successfully!");
+        form.reset();
         fetch(`${APP_SERVER}/testimonial/${data.insertedId}`)
           .then(res => res.json())
           .then(data => {
