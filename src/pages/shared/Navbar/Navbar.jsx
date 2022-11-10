@@ -58,9 +58,11 @@ const Navbar = () => {
               <nav className="border bg-white invisible border-gray-800 w-40 absolute right-0 top-full transition-all opacity-0 group-hover:visible group-hover:opacity-100 group-hover:translate-y-1 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-1">
                 <ul className="flex flex-col gap-2">
                   <li>
-                    <a href="#" className="block px-4 py-2 hover:bg-gray-100">
+                    <Link
+                      to="/myReviews"
+                      className="block px-4 py-2 hover:bg-gray-100">
                       My reviews
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <a href="#" className="block px-4 py-2 hover:bg-gray-100">
