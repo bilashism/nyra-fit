@@ -20,7 +20,20 @@ const Login = () => {
   useTitle("Login");
   const emailRef = useRef();
   const passwordRef = useRef();
-
+  const getToken = data => {
+    fetch(`${APP_SERVER}/jwt`, {
+      method: "post",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then(data => {
+        localStorage.setItem("nyraFitToken", data.token);
+      })
+      .catch(err => console.error(err));
+  };
   // handle User Login form
   const handleUserLogin = ev => {
     ev.preventDefault();
@@ -36,18 +49,7 @@ const Login = () => {
 
           const curUser = { email: data.user.email };
           // get jwt token
-          fetch(`${APP_SERVER}/jwt`, {
-            method: "post",
-            headers: {
-              "content-type": "application/json"
-            },
-            body: JSON.stringify(curUser)
-          })
-            .then(res => res.json())
-            .then(data => {
-              localStorage.setItem("nyraFitToken", data.token);
-            })
-            .catch(err => console.error(err));
+          getToken(curUser);
 
           navigate(from, { replace: true });
         })
@@ -66,6 +68,8 @@ const Login = () => {
       .then(data => {
         console.log(data);
         toast.success("Logged in successfully!");
+        const curUser = { email: data.user.email };
+        getToken(curUser);
         navigate(from, { replace: true });
       })
       .catch(err => {
@@ -126,7 +130,7 @@ const Login = () => {
               <button
                 type="submit"
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center   ">
-                Submit
+                Login
               </button>
             </div>
           </form>
