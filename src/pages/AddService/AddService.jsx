@@ -1,7 +1,10 @@
 import React from "react";
 import toast from "react-hot-toast";
+import useTitle from "../../hooks/useTitle";
 
 const AddService = () => {
+  useTitle(`Add a new service`);
+
   const APP_SERVER = import.meta.env.VITE_APP_SERVER;
 
   const handleNewService = ev => {

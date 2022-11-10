@@ -5,10 +5,13 @@ import { createContext } from "react";
 import { useState } from "react";
 import LoadingCircle from "../../components/ui/LoadingCircle";
 import { AuthContext } from "../../context/AuthProvider/AuthProvider";
+import useTitle from "../../hooks/useTitle";
 import MyReviewItem from "./MyReviewItem";
 export const MyReviewsContext = createContext();
 
 const MyReviews = () => {
+  useTitle(`My Reviews`);
+
   const [myReviews, setMyReviews] = useState([]);
   const [myServicesLoading, setMyServicesLoading] = useState(true);
   const { user, userLogOut } = useContext(AuthContext);
