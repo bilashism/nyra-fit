@@ -7,21 +7,30 @@ import { AuthContext } from "../../context/AuthProvider/AuthProvider";
 import MyReviewItem from "./MyReviewItem";
 
 const MyReviews = () => {
-  const [myReviews, setMyReviews] = useState();
+  const [myReviews, setMyReviews] = useState([]);
   const [myServicesLoading, setMyServicesLoading] = useState(true);
-  const { user } = useContext(AuthContext);
+  const { user, userLogOut } = useContext(AuthContext);
   const APP_SERVER = import.meta.env.VITE_APP_SERVER;
 
   useEffect(() => {
     if (!user.email) return;
-    fetch(`${APP_SERVER}/myReviews?userEmail=${user.email}`, {})
-      .then(res => res.json())
+    fetch(`${APP_SERVER}/myReviews?userEmail=${user.email}`, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem(`nyraFitToken`)}`
+      }
+    })
+      .then(res => {
+        if (res.status === 401 || res.status === 403) {
+          return userLogOut();
+        }
+        return res.json();
+      })
       .then(data => {
         setMyReviews(data);
         setMyServicesLoading(false);
       })
       .catch(err => console.error(err));
-  }, []);
+  }, [user?.email, userLogOut]);
 
   return (
     <div>

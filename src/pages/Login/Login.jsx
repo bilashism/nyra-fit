@@ -13,6 +13,8 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location?.state?.from?.pathname || "/";
+  const APP_SERVER = import.meta.env.VITE_APP_SERVER;
+
   // console.log(location);
   const googleProvider = new GoogleAuthProvider();
   useTitle("Login");
@@ -31,6 +33,22 @@ const Login = () => {
         .then(data => {
           toast.success("Logged in successfully!");
           form.reset();
+
+          const curUser = { email: data.user.email };
+          // get jwt token
+          fetch(`${APP_SERVER}/jwt`, {
+            method: "post",
+            headers: {
+              "content-type": "application/json"
+            },
+            body: JSON.stringify(curUser)
+          })
+            .then(res => res.json())
+            .then(data => {
+              localStorage.setItem("nyraFitToken", data.token);
+            })
+            .catch(err => console.error(err));
+
           navigate(from, { replace: true });
         })
         .catch(err => {

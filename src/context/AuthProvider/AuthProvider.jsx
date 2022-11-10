@@ -31,6 +31,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const userLogOut = () => {
+    localStorage.removeItem("nyraFitToken");
     return signOut(auth);
   };
 
