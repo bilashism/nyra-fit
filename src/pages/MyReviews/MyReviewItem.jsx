@@ -4,12 +4,13 @@ import toast from "react-hot-toast";
 import LoadingCircle from "../../components/ui/LoadingCircle";
 import { AuthContext } from "../../context/AuthProvider/AuthProvider";
 import { MyReviewsContext } from "./MyReviews";
-
+import { ImCross } from "react-icons/im";
 const MyReviewItem = ({ myReview }) => {
   const { _id, text, serviceId } = myReview;
   const [serviceData, setServiceData] = useState();
+  const [showModal, setShowModal] = useState(false);
   const { myReviews, setMyReviews } = useContext(MyReviewsContext);
-  const { user } = useContext(AuthContext);
+  const { user, userLogOut } = useContext(AuthContext);
   const APP_SERVER = import.meta.env.VITE_APP_SERVER;
 
   useEffect(() => {
@@ -43,6 +44,52 @@ const MyReviewItem = ({ myReview }) => {
         })
         .catch(err => console.error(err));
     }
+  };
+
+  const handleReviewUpdate = (ev, id) => {
+    ev.preventDefault();
+    const form = ev.target;
+    const updatedReview = form.updatedReview.value;
+    if (text === updatedReview) {
+      toast.error("Nothing to update!");
+      setShowModal(true);
+      return;
+    }
+    fetch(`${APP_SERVER}/testimonial/${id}`, {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${localStorage.getItem(`nyraFitToken`)}`
+      },
+      body: JSON.stringify({ text: updatedReview })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.modifiedCount >= 1) {
+          toast.success(`Review updated successfully! 🥳`);
+
+          fetch(`${APP_SERVER}/myReviews?userEmail=${user.email}`, {
+            headers: {
+              authorization: `Bearer ${localStorage.getItem(`nyraFitToken`)}`
+            }
+          })
+            .then(res => {
+              if (res.status === 401 || res.status === 403) {
+                return userLogOut();
+              }
+              return res.json();
+            })
+            .then(data => {
+              setMyReviews(data);
+            })
+            .catch(err => console.error(err));
+        }
+      })
+      .catch(err => console.error(err))
+      .finally(() => {
+        form.reset();
+        setShowModal(false);
+      });
   };
 
   return (
@@ -104,10 +151,63 @@ const MyReviewItem = ({ myReview }) => {
           </button>
           <button
             type="button"
+            onClick={() => setShowModal(true)}
             className="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-gray-900 bg-white rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200">
             Edit
           </button>
         </div>
+        {showModal ? (
+          <div className="min-h-screen w-full isolate  fixed inset-0 bg-slate-600 bg-opacity-40 z-50 grid items-center ">
+            <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto relative  outline-none focus:outline-none">
+              <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                  <div className="flex items-center gap-4 justify-between p-5 border-b border-solid border-gray-300 rounded-t ">
+                    <h3 className="text-3xl font-semibold">Update review</h3>
+                    <button
+                      className="bg-transparent border-0 inline-flex items-center justify-center text-red-600"
+                      onClick={() => setShowModal(false)}>
+                      <ImCross />
+                    </button>
+                  </div>
+                  <div className="relative p-4 flex-auto">
+                    <form
+                      className=" rounded  w-full"
+                      onSubmit={ev => handleReviewUpdate(ev, _id)}>
+                      <div className="relative z-0 mb-6 w-full group">
+                        <label
+                          htmlFor="updatedReview"
+                          className="block mb-2 text-sm sr-only text-gray-500">
+                          Service description
+                        </label>
+                        <textarea
+                          id="updatedReview"
+                          name="updatedReview"
+                          rows="8"
+                          className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="Your updated review..."
+                          defaultValue={text}
+                          required></textarea>
+                      </div>
+                      <div className="flex items-center justify-end  ">
+                        <button
+                          className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
+                          type="button"
+                          onClick={() => setShowModal(false)}>
+                          Close
+                        </button>
+                        <button
+                          className="text-white bg-yellow-500 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                          type="submit">
+                          Submit
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : null}
       </div>
     </div>
   );

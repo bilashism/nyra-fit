@@ -66,7 +66,6 @@ const Login = () => {
   const handleProviderLogIn = provider => {
     providerLogin(provider)
       .then(data => {
-        console.log(data);
         toast.success("Logged in successfully!");
         const curUser = { email: data.user.email };
         getToken(curUser);
