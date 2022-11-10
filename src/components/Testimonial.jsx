@@ -2,11 +2,11 @@ import React from "react";
 
 const Testimonial = ({ testimonial }) => {
   const {
-    testimony,
+    text: testimony,
     rating,
     reviewer: { name, email, img, title }
   } = testimonial;
-
+  console.log(testimonial);
   return (
     <div className="flex flex-wrap  text-gray-600">
       <div className="w-full">
@@ -24,12 +24,23 @@ const Testimonial = ({ testimonial }) => {
               alt={name}
               src={img}
               className="w-12 h-12 rounded-full flex-shrink-0 object-cover object-center"
+              onError={ev =>
+                (ev.target.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1' x='0px' y='0px' viewBox='0 0 500 500' style='enable-background:new 0 0 500 500;' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bclip-path:url(%23SVGID_2_);%7D .st1%7Bfill:%238A8B8A;%7D .st2%7Bfill:%23FFFFFF;%7D %3C/style%3E%3Cg%3E%3Cdefs%3E%3Ccircle id='SVGID_1_' cx='250' cy='249' r='243'/%3E%3C/defs%3E%3CclipPath id='SVGID_2_'%3E%3Cuse xlink:href='%23SVGID_1_' style='overflow:visible;'/%3E%3C/clipPath%3E%3Cg id='Page-1' class='st0'%3E%3Cg id='avatar-unknown'%3E%3Crect id='Rectangle' x='-3' y='-1' class='st1' width='500' height='500'/%3E%3Ccircle id='Oval' class='st2' cx='252' cy='211' r='98'/%3E%3Ccircle id='Oval_1_' class='st2' cx='250' cy='502.9' r='185.2'/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E`)
+              }
             />
             <span className="flex-grow flex flex-col pl-4">
               <span className="title-font font-medium text-gray-900">
                 {name}
               </span>
-              <span className="text-gray-500 text-sm">{title}</span>
+              <p className="text-gray-500 text-sm">
+                {title ? (
+                  <span className="capitalize">{title}</span>
+                ) : (
+                  <span className="">
+                    {email.replace(/(\w{2})[\w.-]+@([\w.]+\w)/, "$1***@$2")}
+                  </span>
+                )}
+              </p>
             </span>
           </a>
         </div>

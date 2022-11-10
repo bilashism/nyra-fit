@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { createContext } from "react";
 import { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Testimonial from "../../components/Testimonial";
@@ -6,6 +7,7 @@ import LoadingCircle from "../../components/ui/LoadingCircle";
 import { AuthContext } from "../../context/AuthProvider/AuthProvider";
 import AddReview from "./AddReview";
 const APP_SERVER = import.meta.env.VITE_APP_SERVER;
+export const TestimonialsContext = createContext();
 
 const TestimonialsSection = ({ serviceId }) => {
   const [testimonials, setTestimonials] = useState([]);
@@ -28,7 +30,9 @@ const TestimonialsSection = ({ serviceId }) => {
         {authLoading ? (
           <LoadingCircle />
         ) : user?.uid ? (
-          <AddReview />
+          <TestimonialsContext.Provider value={{ serviceId, setTestimonials }}>
+            <AddReview />
+          </TestimonialsContext.Provider>
         ) : (
           <h2 className="pb-4 text-center">
             Please{" "}
