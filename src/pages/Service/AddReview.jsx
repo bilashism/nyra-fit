@@ -39,7 +39,7 @@ const AddReview = () => {
         fetch(`${APP_SERVER}/testimonial/${data.insertedId}`)
           .then(res => res.json())
           .then(data => {
-            setTestimonials(prev => [...prev, data]);
+            setTestimonials(prev => [data, ...prev]);
           })
           .catch(err => console.error(err));
       })

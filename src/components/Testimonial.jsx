@@ -39,7 +39,9 @@ const Testimonial = ({ testimonial }) => {
                   <span className="capitalize">{title}</span>
                 ) : (
                   <span className="">
-                    {email.replace(/(\w{2})[\w.-]+@([\w.]+\w)/, "$1***@$2")}
+                    {email
+                      .replace(/(\w{2})[\w.-]+@([\w.]+\w)/, "$1***@$2")
+                      .replace(/\@(.*?)\./gi, "**")}
                   </span>
                 )}
               </p>

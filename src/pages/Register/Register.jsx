@@ -7,7 +7,8 @@ import { AuthContext } from "../../context/AuthProvider/AuthProvider";
 import toast from "react-hot-toast";
 
 const Register = () => {
-  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const { createUser, updateUserProfile, setAuthLoading } =
+    useContext(AuthContext);
 
   useTitle("Register");
   const nameRef = useRef();
@@ -47,6 +48,9 @@ const Register = () => {
       .catch(err => {
         err?.code && toast.error(err.code);
         console.error(err);
+      })
+      .finally(() => {
+        setAuthLoading(false);
       });
   };
 
