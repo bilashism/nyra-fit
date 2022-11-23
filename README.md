@@ -1,6 +1,5 @@
 # Nyra Fit (Frontend)
 
-- Github repo: https://github.com/Porgramming-Hero-web-course/b6a11-service-review-client-side-bilashism  
 - Live preview: https://nyra-fit.web.app  
 
 ## Features
