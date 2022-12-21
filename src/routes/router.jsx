@@ -23,8 +23,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/services",
-        element: <Services />,
-        loader: () => fetch(`${APP_SERVER}/services`)
+        element: <Services />
       },
       {
         path: "/service/:id",
