@@ -28,5 +28,18 @@
     "tailwindcss": "^3.1.8",
     "vite": "^3.1.0",
     "vite-plugin-mkcert": "^1.10.1"
-  }
+  },
+  "description": "- Github repo: https://github.com/Porgramming-Hero-web-course/b6a11-service-review-client-side-bilashism  \r - Live preview: https://nyra-fit.web.app",
+  "main": "vite.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bilashism/nyra-fit.git"
+  },
+  "keywords": [],
+  "author": "Md. Taifuzzaman Bilash <bilashism@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bilashism/nyra-fit/issues"
+  },
+  "homepage": "https://github.com/bilashism/nyra-fit#readme"
 }
