@@ -13,9 +13,14 @@ const DiverseProgrammes = () => {
             A diverse suite of health & wellness programmes
           </h2>
           <p className="lg:w-2/3 mx-auto leading-relaxed text-base">
-            Partnering with Pavelka on your corporate wellness programme gives
-            your people a wide selection of tools that can improve their working
-            experience and their life.
+            Partnering with{" "}
+            <span className="inline-flex gap-1 text-sm">
+              <b className="text-blue-700">Nyra</b>
+              <b className="text-purple-700">Fit</b>
+            </span>{" "}
+            on your corporate wellness programme gives your people a wide
+            selection of tools that can improve their working experience and
+            their life.
           </p>
         </div>
         <div className="flex flex-wrap -m-4 text-center">
