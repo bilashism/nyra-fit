@@ -30,11 +30,7 @@ const Contact = () => {
           <iframe
             width="100%"
             height="100%"
-            frameborder="0"
             title="map"
-            marginheight="0"
-            marginwidth="0"
-            scrolling="no"
             src="https://maps.google.com/maps?q=2880%20Broadway,%20New%20York&t=&z=11&ie=UTF8&iwloc=&output=embed"
             className="w-full h-full absolute inset-0 filter grayscale contrast-100 opacity-80"></iframe>
           <div className="bg-white relative flex flex-wrap py-6 rounded shadow-md">
@@ -123,9 +119,11 @@ const Contact = () => {
                 <p className="text-red-500">{errors.message?.message}</p>
               )}
             </div>
-            <button className="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-              Send now
-            </button>
+            <div className="flex justify-center">
+              <button className="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                Send now
+              </button>
+            </div>
           </form>
         </div>
       </div>
