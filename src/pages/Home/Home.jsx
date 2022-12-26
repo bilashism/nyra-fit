@@ -1,5 +1,6 @@
 import React from "react";
 import useTitle from "../../hooks/useTitle";
+import DiverseProgrammes from "./DiverseProgrammes";
 import Header from "./Header";
 import Statistics from "./Statistics";
 import TopServices from "./TopServices";
@@ -11,6 +12,7 @@ const Home = () => {
       <Header />
       <Statistics />
       <TopServices />
+      <DiverseProgrammes />
     </>
   );
 };
