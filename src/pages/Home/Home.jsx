@@ -1,5 +1,6 @@
 import React from "react";
 import useTitle from "../../hooks/useTitle";
+import Contact from "./Contact";
 import DiverseProgrammes from "./DiverseProgrammes";
 import Header from "./Header";
 import MyTeam from "./MyTeam";
@@ -17,6 +18,7 @@ const Home = () => {
       <DiverseProgrammes />
       <MyTeam />
       <Newsletter />
+      <Contact />
     </>
   );
 };
