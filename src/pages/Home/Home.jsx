@@ -2,6 +2,7 @@ import React from "react";
 import useTitle from "../../hooks/useTitle";
 import DiverseProgrammes from "./DiverseProgrammes";
 import Header from "./Header";
+import MyTeam from "./MyTeam";
 import Statistics from "./Statistics";
 import TopServices from "./TopServices";
 
@@ -13,6 +14,7 @@ const Home = () => {
       <Statistics />
       <TopServices />
       <DiverseProgrammes />
+      <MyTeam />
     </>
   );
 };
